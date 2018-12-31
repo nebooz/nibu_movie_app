@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'movies_def.dart';
-import 'globals.dart' as globals;
+import 'secrets.dart' as secrets;
 
 final url =
-    "https://api.themoviedb.org/3/movie/popular?api_key=${globals.movieApiKey}&language=en-US&page=1";
+    "https://api.themoviedb.org/3/movie/popular?api_key=${secrets.movieApiKey}&language=en-US&page=1";
 
 Future<Movies> getPost() async {
   final response = await http.get(url);

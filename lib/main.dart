@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'movies_def.dart';
 import 'services.dart';
+import 'globals.dart' as globals;
+
+import 'package:transparent_image/transparent_image.dart';
 
 void main() => runApp(MyApp());
 
@@ -89,19 +92,47 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Movie> movies = snapshot.data.results;
-    return new ListView.builder(
+    return ListView.builder(
       itemCount: movies.length,
       itemBuilder: (BuildContext context, int index) {
-        return new Column(
-          children: <Widget>[
-            new ListTile(
-              title: new Text(movies[index].title),
-            ),
-            new Divider(
-              height: 2.0,
-            ),
-          ],
-        );
+        return Column(children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: globals.moviePosterUrl + movies[index].posterPath,
+                    height: 160.0,
+                    width: 100.0,
+                    fit: BoxFit.cover,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            movies[index].title,
+                            style: TextStyle(
+                                fontSize: 12.0, fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            "Release Date: " + movies[index].releaseDate,
+                            style: TextStyle(
+                                fontSize: 8.0, fontStyle: FontStyle.italic),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          //Expanded(child: Container()),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ))
+        ]);
       },
     );
   }
