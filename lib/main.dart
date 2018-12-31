@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'http_test.dart';
+import 'movies_def.dart';
+import 'services.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,8 +28,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -48,13 +47,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  Future<Post> post;
+  Future<Movies> movies;
 
   @override
   void initState() {
+    movies = getPost();
     super.initState();
-    post = fetchPost();
   }
 
   int _counter = 0;
@@ -104,11 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FutureBuilder<Post>(
-                future: post,
+            FutureBuilder<Movies>(
+                future: movies,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data.title);
+                    return Text(snapshot.data.results[0].title);
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   }
