@@ -4,7 +4,7 @@ import 'services.dart';
 import 'globals.dart' as globals;
 
 import 'package:transparent_image/transparent_image.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 void main() => runApp(MyApp());
 
@@ -106,29 +106,73 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Container(
                                   alignment: Alignment.centerLeft,
                                   height: 40.0,
-                                  color: Colors.amber,
-                                  padding: EdgeInsets.only(left: 8.0),
+                                  decoration: BoxDecoration(
+                                    // Box decoration takes a gradient
+                                    gradient: LinearGradient(
+                                      // Where the linear gradient begins and ends
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      // Add one stop for each color. Stops should increase from 0 to 1
+                                      stops: [0.1, 0.6, 1.0],
+                                      colors: [
+                                        // Colors are easy thanks to Flutter's Colors class.
+                                        Colors.black,
+                                        Colors.grey,
+                                        Colors.white,
+                                      ],
+                                    ),
+                                  ),
+                                  padding:
+                                      EdgeInsets.only(left: 8.0, right: 16.0),
                                   child: Text(
                                     movies[index].title,
                                     maxLines: 2,
                                     style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'OpenSans'),
+                                      color: Colors.white,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'OpenSans',
+                                      shadows: [
+                                        Shadow(
+                                            // bottomRight
+                                            offset: Offset(1.0, 1.5),
+                                            color: Colors.black87),
+                                      ],
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                               Container(
                                 alignment: Alignment.center,
-                                color: Colors.red,
+                                color: Colors.transparent,
                                 height: 40.0,
                                 width: 40.0,
-                                child: Text(
-                                  movies[index].voteAverage.toString(),
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
+                                child: CircularPercentIndicator(
+                                  radius: 36.0,
+                                  lineWidth: 4.0,
+                                  animation: true,
+                                  percent: movies[index].voteAverage / 10,
+                                  center: RichText(
+                                    text: TextSpan(
+                                      text: (((movies[index].voteAverage) * 10)
+                                          .toStringAsFixed(0)),
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: "%",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 6.0)),
+                                      ],
+                                    ),
+                                  ),
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  progressColor: Colors.green,
                                 ),
                               ),
                             ],
