@@ -6,7 +6,7 @@ import 'secrets.dart' as secrets;
 final url =
     "https://api.themoviedb.org/3/movie/popular?api_key=${secrets.movieApiKey}&language=en-US&page=1";
 
-Future<Movies> getPost() async {
+Future<Movies> getMovies() async {
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
