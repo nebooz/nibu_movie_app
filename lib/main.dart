@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'movies_def.dart';
+import './data/movies.dart';
+import './data/configuration.dart';
 import 'services.dart';
 import 'globals.dart' as globals;
 
@@ -41,10 +42,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<Movies> movies;
+  String imageBaseUrl;
 
   @override
   void initState() {
     movies = getMovies();
+
+    getConfig().then((val) {
+      globals.moviePosterBaseUrl = val.images.baseUrl;
+      globals.moviePosterSize = val.images.posterSizes[4];
+      print(globals.moviePosterBaseUrl);
+      print(globals.moviePosterSize);
+    });
+
     super.initState();
   }
 
@@ -83,7 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: globals.moviePosterUrl + movies[index].posterPath,
+                    image: globals.moviePosterBaseUrl +
+                        globals.moviePosterSize +
+                        movies[index].posterPath,
                     height: 160.0,
                     width: 100.0,
                     fit: BoxFit.cover,
