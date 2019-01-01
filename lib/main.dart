@@ -57,20 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        child: FutureBuilder<Movies>(
-            future: movies,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return createListView(context, snapshot);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+      body: FutureBuilder<Movies>(
+          future: movies,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return createListView(context, snapshot);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
 
-              // By default, show a loading spinner
-              return CircularProgressIndicator();
-            }),
-      ),
+            // By default, show a loading spinner
+            return CircularProgressIndicator();
+          }),
     );
   }
 
@@ -93,41 +91,63 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   padding: const EdgeInsets.all(8.0),
                 ),
-                Container(
-                  color: Colors.amberAccent,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Container(
+                      color: Colors.amberAccent,
+                      height: 160.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    movies[index].title,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                color: Colors.red,
+                                height: 40.0,
+                                width: 40.0,
+                                child: Text(
+                                  movies[index].voteAverage.toString(),
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            height: 0.0,
+                          ),
                           Container(
-                            alignment: Alignment.center,
-                            color: Colors.red,
-                            height: 30.0,
-                            width: 30.0,
+                            color: Colors.grey,
+                            padding: EdgeInsets.only(
+                                left: 8.0, top: 2.0, bottom: 2.0),
                             child: Text(
-                              movies[index].voteAverage.toString(),
+                              'Release Date: ' + movies[index].releaseDate,
                               style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
+                                  fontSize: 8.0, fontStyle: FontStyle.italic),
                             ),
                           ),
-                          Text(
-                            movies[index].title,
-                            style: TextStyle(
-                                fontSize: 12.0, fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          Divider(
+                            height: 0.0,
+                          )
                         ],
                       ),
-                      Text(
-                        'Release Date: ' + movies[index].releaseDate,
-                        style: TextStyle(
-                            fontSize: 8.0, fontStyle: FontStyle.italic),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
