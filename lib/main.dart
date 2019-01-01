@@ -4,6 +4,7 @@ import 'services.dart';
 import 'globals.dart' as globals;
 
 import 'package:transparent_image/transparent_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Nibu Movie App',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+      theme: ThemeData(primarySwatch: Colors.red, fontFamily: 'OpenSans'),
       home: MyHomePage(title: 'Nibu Movie App'),
     );
   }
@@ -89,28 +88,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 100.0,
                     fit: BoxFit.cover,
                   ),
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 8.0, left: 8.0, right: 4.0, bottom: 8.0),
                 ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Container(
-                      color: Colors.amberAccent,
+                      //color: Colors.amberAccent,
                       height: 160.0,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        //crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
                               Expanded(
                                 child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: 40.0,
+                                  color: Colors.amber,
                                   padding: EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     movies[index].title,
                                     maxLines: 2,
                                     style: TextStyle(
                                         fontSize: 12.0,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'OpenSans'),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -133,13 +137,34 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 0.0,
                           ),
                           Container(
+                            height: 20.0,
+                            alignment: Alignment.centerLeft,
+                            // Why changing the alignment magically extends
+                            // the container usage to all available horizontal space?
                             color: Colors.grey,
                             padding: EdgeInsets.only(
                                 left: 8.0, top: 2.0, bottom: 2.0),
-                            child: Text(
-                              'Release Date: ' + movies[index].releaseDate,
-                              style: TextStyle(
-                                  fontSize: 8.0, fontStyle: FontStyle.italic),
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 4.0),
+                                  child: Icon(Icons.access_time,
+                                      color: Colors.white, size: 12.0),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Release Date:  ',
+                                    style: TextStyle(fontSize: 8.0),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: movies[index].releaseDate,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 8.0)),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Divider(
