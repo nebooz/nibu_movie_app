@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './data/movies.dart';
 import 'services.dart';
 import 'globals.dart' as globals;
+import 'package:intl/intl.dart';
 
 import 'package:transparent_image/transparent_image.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -161,31 +162,35 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 40.0,
                                 width: 40.0,
                                 child: CircularPercentIndicator(
-                                  radius: 36.0,
-                                  lineWidth: 4.0,
-                                  animation: true,
-                                  percent: movies[index].voteAverage / 10,
-                                  center: RichText(
-                                    text: TextSpan(
-                                      text: (((movies[index].voteAverage) * 10)
-                                          .toStringAsFixed(0)),
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: "%",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 6.0)),
-                                      ],
+                                    radius: 36.0,
+                                    lineWidth: 4.0,
+                                    animation: true,
+                                    animationDuration: 1000,
+                                    percent: movies[index].voteAverage / 10,
+                                    center: RichText(
+                                      text: TextSpan(
+                                        text:
+                                            (((movies[index].voteAverage) * 10)
+                                                .toStringAsFixed(0)),
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: "%",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 6.0)),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  circularStrokeCap: CircularStrokeCap.round,
-                                  progressColor: Colors.green,
-                                ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: _getCircularColor(
+                                        movies[index]
+                                            .voteAverage) //Colors.green,
+                                    ),
                               ),
                             ],
                           ),
@@ -213,7 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(fontSize: 8.0),
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: movies[index].releaseDate,
+                                          text: _dateConversion(
+                                              movies[index].releaseDate),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 8.0)),
@@ -249,4 +255,22 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+}
+
+MaterialColor _getCircularColor(double percentage) {
+  if (percentage >= 7.0) {
+    return Colors.green;
+  } else if (percentage >= 6.0 && percentage < 7.0) {
+    return Colors.lightGreen;
+  } else if (percentage >= 5.0 && percentage < 6.0) {
+    return Colors.yellow;
+  } else if (percentage >= 4.0 && percentage < 5.0) {
+    return Colors.orange;
+  } else {
+    return Colors.red;
+  }
+}
+
+String _dateConversion(String inputDate) {
+  return DateFormat.yMMMMEEEEd().format(DateTime.parse(inputDate)).toString();
 }
