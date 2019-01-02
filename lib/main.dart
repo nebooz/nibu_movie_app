@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './data/movies.dart';
-import './data/configuration.dart';
 import 'services.dart';
 import 'globals.dart' as globals;
 
@@ -48,9 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     movies = getMovies();
 
-    getConfig().then((val) {
-      globals.moviePosterBaseUrl = val.images.baseUrl;
-      globals.moviePosterSize = val.images.posterSizes[4];
+    // This seems like a trash way of doing this...
+    getConfig().then((config) {
+      globals.moviePosterBaseUrl = config.images.baseUrl;
+      globals.moviePosterSize = config.images.posterSizes[4];
       print(globals.moviePosterBaseUrl);
       print(globals.moviePosterSize);
     });
@@ -225,7 +225,17 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           Divider(
                             height: 0.0,
-                          )
+                          ),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              movies[index].overview,
+                              style: TextStyle(fontSize: 9.0),
+                              maxLines: 7,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )),
                         ],
                       ),
                     ),
