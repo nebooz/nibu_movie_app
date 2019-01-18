@@ -77,16 +77,18 @@ class _MyHomePageState extends State<MyHomePage> {
             }
 
             // By default, show a loading spinner
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }),
     );
   }
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
+    MaterialColor progressColor;
     List<Movie> movies = snapshot.data.results;
     return ListView.builder(
       itemCount: movies.length,
       itemBuilder: (BuildContext context, int index) {
+        progressColor = _getCircularColor(movies[index].voteAverage);
         return Column(
           children: <Widget>[
             Row(
@@ -102,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fit: BoxFit.cover,
                   ),
                   padding: const EdgeInsets.only(
-                      top: 8.0, left: 8.0, right: 4.0, bottom: 8.0),
+                      top: 4.0, left: 8.0, right: 4.0, bottom: 4.0),
                 ),
                 Expanded(
                   child: Padding(
@@ -115,94 +117,98 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
+                              Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 44.0,
+                                    height: 40.0,
+                                    color: Colors.grey[700],
+                                  ),
+                                  Container(
+                                    width: 36.0,
+                                    height: 36.0,
+                                    decoration: new BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    color: Colors.transparent,
+                                    height: 36.0,
+                                    width: 36.0,
+                                    child: CircularPercentIndicator(
+                                      radius: 32.0,
+                                      lineWidth: 4.0,
+                                      animation: true,
+                                      animationDuration: 1000,
+                                      percent: movies[index].voteAverage / 10,
+                                      center: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            (((movies[index].voteAverage) * 10)
+                                                .toStringAsFixed(0)),
+                                            style: TextStyle(
+                                                fontSize: 11.0,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "%",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 6.0),
+                                          )
+                                        ],
+                                      ),
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      progressColor: progressColor,
+                                      backgroundColor: progressColor.shade900,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.centerLeft,
                                   height: 40.0,
-                                  decoration: BoxDecoration(
-                                    // Box decoration takes a gradient
-                                    gradient: LinearGradient(
-                                      // Where the linear gradient begins and ends
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      // Add one stop for each color. Stops should increase from 0 to 1
-                                      stops: [0.1, 0.6, 1.0],
-                                      colors: [
-                                        // Colors are easy thanks to Flutter's Colors class.
-                                        Colors.black,
-                                        Colors.grey,
-                                        Colors.white,
-                                      ],
-                                    ),
-                                  ),
+                                  color: Colors.grey[500],
                                   padding:
-                                      EdgeInsets.only(left: 8.0, right: 16.0),
+                                      EdgeInsets.only(left: 8.0, right: 8.0),
                                   child: Text(
                                     movies[index].title,
                                     maxLines: 2,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'OpenSans',
-                                      shadows: [
+                                      /*shadows: [
                                         Shadow(
                                             // bottomRight
                                             offset: Offset(1.0, 1.5),
                                             color: Colors.black87),
-                                      ],
+                                      ],*/
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              Container(
-                                alignment: Alignment.center,
-                                color: Colors.transparent,
-                                height: 40.0,
-                                width: 40.0,
-                                child: CircularPercentIndicator(
-                                    radius: 36.0,
-                                    lineWidth: 4.0,
-                                    animation: true,
-                                    animationDuration: 1000,
-                                    percent: movies[index].voteAverage / 10,
-                                    center: RichText(
-                                      text: TextSpan(
-                                        text:
-                                            (((movies[index].voteAverage) * 10)
-                                                .toStringAsFixed(0)),
-                                        style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: "%",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 6.0)),
-                                        ],
-                                      ),
-                                    ),
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    progressColor: _getCircularColor(
-                                        movies[index]
-                                            .voteAverage) //Colors.green,
-                                    ),
-                              ),
                             ],
-                          ),
-                          Divider(
-                            height: 0.0,
                           ),
                           Container(
                             height: 20.0,
                             alignment: Alignment.centerLeft,
                             // Why changing the alignment magically extends
                             // the container usage to all available horizontal space?
-                            color: Colors.grey,
+                            color: Colors.grey[400],
                             padding: EdgeInsets.only(
                                 left: 8.0, top: 2.0, bottom: 2.0),
                             child: Row(
@@ -233,15 +239,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 0.0,
                           ),
                           Expanded(
+                            child: Container(
+                              color: Colors.grey[300],
                               child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              movies[index].overview,
-                              style: TextStyle(fontSize: 9.0),
-                              maxLines: 7,
-                              overflow: TextOverflow.ellipsis,
+                                padding: const EdgeInsets.only(
+                                    left: 12.0,
+                                    right: 12.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Center(
+                                  child: Text(
+                                    movies[index].overview,
+                                    style:
+                                        TextStyle(fontSize: 9.0, height: 1.2),
+                                    maxLines: 5,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
                             ),
-                          )),
+                          ),
                         ],
                       ),
                     ),
@@ -249,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            Divider(height: 2.0),
+            Divider(height: 1.0),
           ],
         );
       },
