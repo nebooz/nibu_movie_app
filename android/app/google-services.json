@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "156209864162",
+    "firebase_url": "https://nibu-movie-app.firebaseio.com",
+    "project_id": "nibu-movie-app",
+    "storage_bucket": "nibu-movie-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156209864162:android:8cb7abe947a55539",
+        "android_client_info": {
+          "package_name": "com.nebooz.nibumovieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156209864162-g4q8g0odek8ckn3g5ujng2c98990vsk8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTRgTCYf0UmaIjwSGZJxrQ-O9wXCmGB6c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

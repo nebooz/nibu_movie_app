@@ -121,25 +121,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                 alignment: AlignmentDirectional.center,
                                 children: <Widget>[
                                   Container(
-                                    width: 44.0,
+                                    width: 40.0,
                                     height: 40.0,
                                     color: Colors.grey[700],
                                   ),
                                   Container(
                                     width: 36.0,
                                     height: 36.0,
-                                    decoration: new BoxDecoration(
+                                    decoration: BoxDecoration(
                                       color: Colors.black,
-                                      shape: BoxShape.circle,
+                                      borderRadius: BorderRadius.circular(18),
                                     ),
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    color: Colors.transparent,
-                                    height: 36.0,
-                                    width: 36.0,
+                                    //color: Colors.transparent,
+                                    height: 34.0,
+                                    width: 34.0,
                                     child: CircularPercentIndicator(
-                                      radius: 32.0,
+                                      radius: 30.0,
                                       lineWidth: 4.0,
                                       animation: true,
                                       animationDuration: 1000,
@@ -154,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             (((movies[index].voteAverage) * 10)
                                                 .toStringAsFixed(0)),
                                             style: TextStyle(
-                                                fontSize: 11.0,
+                                                fontSize: 10.0,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 6.0),
+                                                fontSize: 4.0),
                                           )
                                         ],
                                       ),
